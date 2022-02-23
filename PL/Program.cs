@@ -24,14 +24,17 @@ namespace PL
             {
                 case 1:
                     Materia.Add();//agregar materia
+                    Console.ReadKey();
                     break;
 
                 case 2:
                     Materia.Update();//actualizar materia
+                    Console.ReadKey();
                     break;
 
                 case 3:
-                    //borrar 
+                    Materia.Delete();//borrar 
+                    Console.ReadKey();
 
                     break;
 
@@ -41,7 +44,8 @@ namespace PL
                     break;
 
                 case 5:
-                   //traer solo uno
+                    Materia.GetById();//traer solo uno
+                    Console.ReadKey();
                     break;
 
 

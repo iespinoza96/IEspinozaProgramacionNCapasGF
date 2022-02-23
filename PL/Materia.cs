@@ -40,7 +40,6 @@ namespace PL
 
 
         }
-
         public static void Update()
         {
             ML.Materia materia = new ML.Materia();
@@ -75,7 +74,6 @@ namespace PL
 
 
         }
-
         public static void GetAll()
         {
             ML.Result result = BL.Materia.GetAll();
@@ -96,5 +94,44 @@ namespace PL
                 Console.WriteLine("Ocurrió un error al consultar la información" + result.ErrorMessage);
             }
         }
+        public static void Delete()
+        {
+            ML.Materia materia = new ML.Materia();//instancia 
+
+            Console.WriteLine("Ingresa el Id de la materia");
+            materia.IdMateria = int.Parse(Console.ReadLine());
+
+            ML.Result result = BL.Materia.DeleteSP(materia);
+
+            if (result.Correct)
+            {
+                Console.WriteLine("Materia borrada correctamente");
+            }
+            else
+            {
+                Console.WriteLine("Ocurrió un error al borrar el registro en la tabla Materia " + result.ErrorMessage);
+            }
+        }
+        public static void GetById()
+        {
+            Console.WriteLine("Ingrese el Id de la Materia");
+            int IdMateria = int.Parse(Console.ReadLine());
+
+            ML.Result result = BL.Materia.GetById(IdMateria);
+
+            if (result.Correct)
+            {
+                ML.Materia materia = new ML.Materia();
+
+                materia = ((ML.Materia)result.Object);
+
+                Console.WriteLine("IdProducto: " + materia.IdMateria);
+                Console.WriteLine("Nombre: " + materia.Nombre);
+                Console.WriteLine("Costo: " + materia.Costo);
+                Console.WriteLine("Creditos: " + materia.Creditos);
+                Console.WriteLine("Descripcion: " + materia.Descripcion);
+            }
+        }
+
     }
 }

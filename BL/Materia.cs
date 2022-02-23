@@ -44,6 +44,15 @@ namespace BL
                         cmd.Connection.Open();
 
                         int RowsAffected = cmd.ExecuteNonQuery();
+
+                        if (RowsAffected > 0) //1
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                        }
                     }
                 }
                 result.Correct = true;
@@ -104,7 +113,6 @@ namespace BL
                         {
                             result.Correct = false;
                         }
-                     
 
                     }
 
@@ -120,8 +128,7 @@ namespace BL
             return result;
         }
 
-        // SP
-
+        // Stored Procedure
         public static ML.Result AddSP(ML.Materia materia)
         {
             ML.Result result = new ML.Result();
@@ -156,6 +163,15 @@ namespace BL
                         cmd.Connection.Open();
 
                         int RowsAffected = cmd.ExecuteNonQuery();
+
+                        if (RowsAffected > 0) //1
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                        }
                     }
                 }
                 result.Correct = true;
@@ -168,9 +184,178 @@ namespace BL
             }
 
             return result;
-
         }
+        public static ML.Result UpdateSP(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
 
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
+                {
+                    string query = "MateriaUpdate";
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = context; //cadena de conexion
+                        cmd.CommandText = query; //query
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter[] collection = new SqlParameter[5];
+
+                        collection[0] = new SqlParameter("IdMateria", SqlDbType.Int);
+                        collection[0].Value = materia.IdMateria;
+
+                        collection[0] = new SqlParameter("Nombre", SqlDbType.VarChar);
+                        collection[0].Value = materia.Nombre;
+
+                        collection[1] = new SqlParameter("Costo", SqlDbType.Decimal);
+                        collection[1].Value = materia.Costo;
+
+                        collection[2] = new SqlParameter("Creditos", SqlDbType.TinyInt);
+                        collection[2].Value = materia.Creditos;
+
+                        collection[3] = new SqlParameter("Descripcion", SqlDbType.VarChar);
+                        collection[3].Value = materia.Descripcion;
+
+                        cmd.Parameters.AddRange(collection);
+
+                        cmd.Connection.Open();
+
+                        int RowsAffected = cmd.ExecuteNonQuery();
+
+                        if (RowsAffected > 0) //1
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                        }
+                    }
+                }
+                result.Correct = true;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+
+            return result;
+        }
+        public static ML.Result DeleteSP(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
+                {
+                    string query = "MateriaDelete";
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = context; //cadena de conexion
+                        cmd.CommandText = query; //query
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter[] collection = new SqlParameter[1];
+
+                        collection[0] = new SqlParameter("IdMateria", SqlDbType.Int);
+                        collection[0].Value = materia.IdMateria;
+
+
+                        cmd.Parameters.AddRange(collection);
+
+                        cmd.Connection.Open();
+
+                        int RowsAffected = cmd.ExecuteNonQuery();
+
+                        if (RowsAffected > 0) //1
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                        }
+                    }
+                }
+                result.Correct = true;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+
+            return result;
+        }
+        public static ML.Result GetById(int IdMateria)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
+                {
+                    string query = "MateriaGetById";
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = context; //cadena de conexion
+                        cmd.CommandText = query; //query
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Connection.Open(); //se abre la conexion a la base
+
+                        SqlParameter[] collection = new SqlParameter[1];
+
+                        collection[0] = new SqlParameter("IdMateria", SqlDbType.VarChar);
+                        collection[0].Value = IdMateria;
+
+                        cmd.Parameters.AddRange(collection);
+
+                        DataTable materiaTable = new DataTable();
+
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                        da.Fill(materiaTable);
+
+                        if (materiaTable.Rows.Count > 0)
+                        {
+                            DataRow row = materiaTable.Rows[0];
+
+                            ML.Materia materia = new ML.Materia();
+
+                            materia.IdMateria = int.Parse(row[0].ToString());
+                            materia.Nombre = row[1].ToString();
+                            materia.Costo = decimal.Parse(row[2].ToString());
+                            materia.Creditos = byte.Parse(row[3].ToString());
+                            materia.Descripcion = row[4].ToString();
+
+                            result.Object = materia; //Boxing  --n variable -> object
+
+                            result.Correct = true;
+                        }
+
+                        else
+                        {
+                            result.Correct = false;
+                            result.ErrorMessage = "Ocurrió un error al seleccionar los registros en la tabla Producto";
+                        }
+                    }
+                }
+                result.Correct = true;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+
+            return result;
+        }
         public static ML.Result GetAll()
         {
             ML.Result result = new ML.Result();
@@ -199,12 +384,12 @@ namespace BL
                             foreach (DataRow row in materiaTable.Rows)
                             {
                                 ML.Materia materia = new ML.Materia();
+
                                 materia.IdMateria = int.Parse(row[0].ToString());
                                 materia.Nombre = row[1].ToString();
                                 materia.Costo = decimal.Parse(row[2].ToString());
                                 materia.Creditos = byte.Parse(row[3].ToString());
                                 materia.Descripcion = row[4].ToString();
-
 
                                 result.Objects.Add(materia);
                             }
@@ -219,7 +404,6 @@ namespace BL
 
                     }
 
-
                 }
             }
             catch (Exception ex)
@@ -228,7 +412,6 @@ namespace BL
                 result.ErrorMessage = ex.Message;
                 result.Ex = ex;
             }
-
 
             return result;
         }
