@@ -24,7 +24,8 @@ namespace PL
             Console.WriteLine("Ingresa la descripcion de la materia");
             materia.Descripcion = Console.ReadLine();
 
-            ML.Result result = BL.Materia.Add(materia); //query
+            //ML.Result result = BL.Materia.Add(materia); //query
+            ML.Result result = BL.Materia.AddSP(materia); //SP
 
             if (result.Correct)
             {
@@ -73,6 +74,27 @@ namespace PL
 
 
 
+        }
+
+        public static void GetAll()
+        {
+            ML.Result result = BL.Materia.GetAll();
+            if (result.Correct)
+            {
+                foreach (ML.Materia materia in result.Objects)
+                {
+                    Console.WriteLine("IdMateria: " + materia.IdMateria);
+                    Console.WriteLine("Nombre: " + materia.Nombre);
+                    Console.WriteLine("Costo: " + materia.Costo);
+                    Console.WriteLine("Creditos: " + materia.Creditos);
+                    Console.WriteLine("Descripcion: " + materia.Descripcion);
+                    Console.WriteLine("*******************************************");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ocurrió un error al consultar la información" + result.ErrorMessage);
+            }
         }
     }
 }
