@@ -24,6 +24,10 @@ namespace PL
             Console.WriteLine("Ingresa la descripcion de la materia");
             materia.Descripcion = Console.ReadLine();
 
+            Console.WriteLine("Ingresa el Id del semestre de la materia");
+            materia.Semestre = new ML.Semestre();
+            materia.Semestre.IdSemestre = byte.Parse(Console.ReadLine());
+
             //ML.Result result = BL.Materia.Add(materia); //query
             ML.Result result = BL.Materia.AddSP(materia); //SP
 
@@ -59,6 +63,10 @@ namespace PL
             Console.WriteLine("Ingresa el nuevo nombre de la materia a actualizar");
             materia.Descripcion = Console.ReadLine();
 
+            Console.WriteLine("Ingresa el semestre de la materia");
+            materia.Semestre = new ML.Semestre();
+            materia.Semestre.IdSemestre = byte.Parse(Console.ReadLine());
+
             ML.Result result = BL.Materia.Update(materia);
 
             if (result.Correct)//true
@@ -86,6 +94,7 @@ namespace PL
                     Console.WriteLine("Costo: " + materia.Costo);
                     Console.WriteLine("Creditos: " + materia.Creditos);
                     Console.WriteLine("Descripcion: " + materia.Descripcion);
+                    Console.WriteLine("Semestre: "+materia.Semestre.IdSemestre);
                     Console.WriteLine("*******************************************");
                 }
             }
@@ -130,6 +139,7 @@ namespace PL
                 Console.WriteLine("Costo: " + materia.Costo);
                 Console.WriteLine("Creditos: " + materia.Creditos);
                 Console.WriteLine("Descripcion: " + materia.Descripcion);
+                Console.WriteLine("Semestre: " + materia.Semestre.IdSemestre);
             }
         }
 

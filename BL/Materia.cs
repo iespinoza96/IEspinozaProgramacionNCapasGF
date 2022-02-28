@@ -144,7 +144,7 @@ namespace BL
                         cmd.CommandText = query; //query
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        SqlParameter[] collection = new SqlParameter[4];
+                        SqlParameter[] collection = new SqlParameter[5];
 
                         collection[0] = new SqlParameter("Nombre", SqlDbType.VarChar);
                         collection[0].Value = materia.Nombre;
@@ -157,6 +157,9 @@ namespace BL
 
                         collection[3] = new SqlParameter("Descripcion", SqlDbType.VarChar);
                         collection[3].Value = materia.Descripcion;
+
+                        collection[4] = new SqlParameter("IdSemestre", SqlDbType.TinyInt);
+                        collection[4].Value = materia.Semestre.IdSemestre;
 
                         cmd.Parameters.AddRange(collection);
 
@@ -200,7 +203,7 @@ namespace BL
                         cmd.CommandText = query; //query
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        SqlParameter[] collection = new SqlParameter[5];
+                        SqlParameter[] collection = new SqlParameter[6];
 
                         collection[0] = new SqlParameter("IdMateria", SqlDbType.Int);
                         collection[0].Value = materia.IdMateria;
@@ -216,6 +219,9 @@ namespace BL
 
                         collection[3] = new SqlParameter("Descripcion", SqlDbType.VarChar);
                         collection[3].Value = materia.Descripcion;
+
+                        collection[3] = new SqlParameter("IdSemestre", SqlDbType.TinyInt);
+                        collection[3].Value = materia.Semestre.IdSemestre;
 
                         cmd.Parameters.AddRange(collection);
 
@@ -332,6 +338,7 @@ namespace BL
                             materia.Costo = decimal.Parse(row[2].ToString());
                             materia.Creditos = byte.Parse(row[3].ToString());
                             materia.Descripcion = row[4].ToString();
+                            materia.Semestre.IdSemestre = byte.Parse(row[5].ToString());
 
                             result.Object = materia; //Boxing  --n variable -> object
 
@@ -390,6 +397,8 @@ namespace BL
                                 materia.Costo = decimal.Parse(row[2].ToString());
                                 materia.Creditos = byte.Parse(row[3].ToString());
                                 materia.Descripcion = row[4].ToString();
+                                materia.Semestre = new ML.Semestre();
+                                materia.Semestre.IdSemestre = byte.Parse(row[5].ToString());
 
                                 result.Objects.Add(materia);
                             }

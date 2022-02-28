@@ -23,7 +23,8 @@ namespace PL
             switch (materia)
             {
                 case 1:
-                    Materia.Add();//agregar materia
+                    Alumno.Add();
+                    //Materia.Add();//agregar materia
                     Console.ReadKey();
                     break;
 
