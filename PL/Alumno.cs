@@ -39,7 +39,9 @@ namespace PL
             Console.WriteLine("Ingrese el Id de la colonia:");
             direccion.Colonia.IdColonia = int.Parse(Console.ReadLine());
 
-            ML.Result result = BL.Alumno.Add(direccion.Alumno); 
+            // ML.Result result = BL.Alumno.Add(direccion.Alumno); //SQLClient
+            ML.Result result = BL.Alumno.AddEF(direccion.Alumno); //EF
+            //LINQ
 
             if (result.Correct)
             {

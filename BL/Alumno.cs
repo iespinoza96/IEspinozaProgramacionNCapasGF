@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.Core.Objects;
 
 namespace BL
 {
@@ -69,6 +70,38 @@ namespace BL
 
             }
 
+            return result;
+        }
+
+        public static ML.Result AddEF(ML.Alumno alumno)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
+                {
+                   ObjectParameter IdAlumno = new ObjectParameter("IdAlumno", typeof(int));
+                    var query = context.AlumnoAdd(alumno.Nombre,alumno.ApellidoPaterno,alumno.ApellidoMaterno,alumno.FechaNacimiento,IdAlumno);
+                    if (query > 0)
+                    {
+                        result.Correct = true;
+                        result.Object = Convert.ToInt32(IdAlumno.Value);
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
             return result;
         }
     }

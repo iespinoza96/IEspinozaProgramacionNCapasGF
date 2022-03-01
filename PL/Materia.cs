@@ -29,7 +29,8 @@ namespace PL
             materia.Semestre.IdSemestre = byte.Parse(Console.ReadLine());
 
             //ML.Result result = BL.Materia.Add(materia); //query
-            ML.Result result = BL.Materia.AddSP(materia); //SP
+            //ML.Result result = BL.Materia.AddSP(materia); //SP
+            ML.Result result = BL.Materia.AddEF(materia);
 
             if (result.Correct)
             {

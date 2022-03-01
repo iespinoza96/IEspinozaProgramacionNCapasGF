@@ -424,5 +424,36 @@ namespace BL
 
             return result;
         }
+
+        // Entity Framework
+        public static ML.Result AddEF(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
+                {
+                    var query = context.MateriaAdd(materia.Nombre, materia.Costo, materia.Creditos, materia.Descripcion, materia.Semestre.IdSemestre);
+                    if(query > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+            return result;
+        }
     }
 }
