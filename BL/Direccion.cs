@@ -71,7 +71,7 @@ namespace BL
             return result;
         }
 
-        public static ML.Result GetById(int IdAlumno)
+        public static ML.Result GetByIdAlumno(int IdAlumno)
         {
             ML.Result result = new ML.Result();
 
@@ -94,21 +94,28 @@ namespace BL
 
                         cmd.Parameters.AddRange(collection);
 
-                        DataTable direcccionTable = new DataTable();
+                        DataTable direccionTable = new DataTable();
 
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
 
-                        da.Fill(direcccionTable);
+                        da.Fill(direccionTable);
 
-                        if (direcccionTable.Rows.Count > 0)
+                        if (direccionTable.Rows.Count > 0)
                         {
-                            DataRow row = direcccionTable.Rows[0];
+                            DataRow row = direccionTable.Rows[0];//1
 
                             ML.Direccion direccion = new ML.Direccion();
 
                             direccion.IdDireccion = int.Parse(row[0].ToString());
-                            //result.Object = materia; //Boxing  --n variable -> object
+                            direccion.Calle = row[1].ToString();
+                            direccion.NumeroExterior = row[2].ToString();
+                            direccion.NumeroInterior = row[3].ToString();
+                            direccion.Colonia = new ML.Colonia();
+                            direccion.Colonia.IdColonia = int.Parse(row[4].ToString());
+                            direccion.Alumno = new ML.Alumno();
+                            direccion.Alumno.IdAlumno = int.Parse(row[5].ToString());
 
+                            result.Object = direccion; //boxing
                             result.Correct = true;
                         }
 
@@ -116,6 +123,55 @@ namespace BL
                         {
                             result.Correct = false;
                             result.ErrorMessage = "Ocurrió un error al seleccionar los registros en la tabla Producto";
+                        }
+                    }
+                }
+                result.Correct = true;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+
+            return result;
+        }
+
+        public static ML.Result Delete(int IdDireccion)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
+                {
+                    string query = "DireccionDelete";
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = context; //cadena de conexion
+                        cmd.CommandText = query; //query
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter[] collection = new SqlParameter[1];
+
+                        collection[0] = new SqlParameter("IdDireccion", SqlDbType.Int);
+                        collection[0].Value = IdDireccion;
+
+                        cmd.Parameters.AddRange(collection);
+
+                        cmd.Connection.Open();
+
+                        int RowsAffected = cmd.ExecuteNonQuery();
+
+
+                        if (RowsAffected > 0) //1
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
                         }
                     }
                 }

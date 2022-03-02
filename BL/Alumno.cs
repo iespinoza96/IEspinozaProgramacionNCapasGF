@@ -157,7 +157,6 @@ namespace BL
             return result;
         }
 
-
         public static ML.Result GetByIdLinq(int IdAlumno)
         {
             ML.Result result = new ML.Result();
@@ -205,7 +204,6 @@ namespace BL
             }
             return result;
         }
-
 
         public static ML.Result AddLinq(ML.Alumno alumnoML) //ML
         {
@@ -255,7 +253,6 @@ namespace BL
 
         //SELECT
         //WHERE
-
         public static ML.Result Delete(int IdAlumno)
         {
             ML.Result result = new ML.Result();
@@ -264,23 +261,22 @@ namespace BL
             {
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "AlumnoAdd";
+                    string query = "AlumnoDelete";
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = context; //cadena de conexion
                         cmd.CommandText = query; //query
                         cmd.CommandType = CommandType.StoredProcedure;
-
-                        SqlParameter[] collection = new SqlParameter[5];
-
-                       
-                        cmd.Parameters.AddRange(collection);
-
                         cmd.Connection.Open();
 
-                        int RowsAffected = cmd.ExecuteNonQuery();
+                        SqlParameter[] collection = new SqlParameter[1];
 
-                        result.Object = Convert.ToInt32(cmd.Parameters["IdAlumno"].Value);//boxing
+                        collection[0] = new SqlParameter("IdAlumno", SqlDbType.Int);
+                        collection[0].Value = IdAlumno;
+
+                        cmd.Parameters.AddRange(collection);
+
+                        int RowsAffected = cmd.ExecuteNonQuery();
 
                         if (RowsAffected > 0) //1
                         {

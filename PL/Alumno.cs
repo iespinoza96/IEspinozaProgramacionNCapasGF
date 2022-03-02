@@ -74,33 +74,59 @@ namespace PL
             Console.WriteLine("Ingrese el IdAlumno:");
             direccion.Alumno = new ML.Alumno();
             direccion.Alumno.IdAlumno = int.Parse(Console.ReadLine());
-            
+            ML.Result resultDireccion= BL.Direccion.GetByIdAlumno(direccion.Alumno.IdAlumno);
 
+            //result->Object->Direccion->IdDireccion
 
-            ML.Result result = BL.Alumno.AddLinq(direccion.Alumno); //EF
+            ML.Direccion direccionItem = (ML.Direccion)resultDireccion.Object;
+            //id, calle, num int 
 
-            if (result.Correct)
+            ML.Result resultDeleteDireccion= BL.Direccion.Delete(direccionItem.IdDireccion);
+
+            if(resultDeleteDireccion.Correct)
             {
-                direccion.Alumno.IdAlumno = ((int)result.Object);  //unboxing GUARDAR ID DIRECCION
-                ML.Result resultDireccion = BL.Direccion.Add(direccion);
-                if (resultDireccion.Correct)
+                ML.Result resultDeleteAlumno = BL.Alumno.Delete(direccion.Alumno.IdAlumno);
+
+                if (resultDeleteAlumno.Correct)
                 {
-                    Console.WriteLine("Alumno ingresado correctamente");
-                    Console.WriteLine("Direccion ingresada correctamente");
-                    Console.ReadLine();
+                    Console.WriteLine("Alumno eliminado correctamente");
                 }
                 else
                 {
-                    Console.WriteLine("Ocurrió un error al insertar el registro en la tabla direccion " + result.ErrorMessage);
-                    Console.ReadLine();
-                }
 
+                }
             }
             else
             {
-                Console.WriteLine("Ocurrió un error al insertar el registro en la tabla alumno " + result.ErrorMessage);
-                Console.ReadLine();
+                //no se pudo eliminar al alumno ya que ocurrió un error al eliminar la dirección
             }
+            
+
+
+            //ML.Result result = BL.Alumno.AddLinq(direccion.Alumno); //EF
+
+            //if (result.Correct)
+            //{
+            //    direccion.Alumno.IdAlumno = ((int)result.Object);  //unboxing GUARDAR ID DIRECCION
+            //    ML.Result resultDireccion = BL.Direccion.Add(direccion);
+            //    if (resultDireccion.Correct)
+            //    {
+            //        Console.WriteLine("Alumno ingresado correctamente");
+            //        Console.WriteLine("Direccion ingresada correctamente");
+            //        Console.ReadLine();
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Ocurrió un error al insertar el registro en la tabla direccion " + result.ErrorMessage);
+            //        Console.ReadLine();
+            //    }
+
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Ocurrió un error al insertar el registro en la tabla alumno " + result.ErrorMessage);
+            //    Console.ReadLine();
+            //}
         }
     }
 }
