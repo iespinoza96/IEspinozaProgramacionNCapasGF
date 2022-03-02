@@ -40,8 +40,44 @@ namespace PL
             direccion.Colonia.IdColonia = int.Parse(Console.ReadLine());
 
             // ML.Result result = BL.Alumno.Add(direccion.Alumno); //SQLClient
-            ML.Result result = BL.Alumno.AddEF(direccion.Alumno); //EF
+            ML.Result result = BL.Alumno.AddLinq(direccion.Alumno); //EF
             //LINQ
+
+            if (result.Correct)
+            {
+                direccion.Alumno.IdAlumno = ((int)result.Object);  //unboxing GUARDAR ID DIRECCION
+                ML.Result resultDireccion = BL.Direccion.Add(direccion);
+                if (resultDireccion.Correct)
+                {
+                    Console.WriteLine("Alumno ingresado correctamente");
+                    Console.WriteLine("Direccion ingresada correctamente");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ocurrió un error al insertar el registro en la tabla direccion " + result.ErrorMessage);
+                    Console.ReadLine();
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Ocurrió un error al insertar el registro en la tabla alumno " + result.ErrorMessage);
+                Console.ReadLine();
+            }
+        }
+
+        public static void Delete()
+        {
+            ML.Direccion direccion = new ML.Direccion();
+
+            Console.WriteLine("Ingrese el IdAlumno:");
+            direccion.Alumno = new ML.Alumno();
+            direccion.Alumno.IdAlumno = int.Parse(Console.ReadLine());
+            
+
+
+            ML.Result result = BL.Alumno.AddLinq(direccion.Alumno); //EF
 
             if (result.Correct)
             {

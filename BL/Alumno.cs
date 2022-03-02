@@ -81,8 +81,8 @@ namespace BL
             {
                 using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
                 {
-                   ObjectParameter IdAlumno = new ObjectParameter("IdAlumno", typeof(int));
-                    var query = context.AlumnoAdd(alumno.Nombre,alumno.ApellidoPaterno,alumno.ApellidoMaterno,alumno.FechaNacimiento,IdAlumno);
+                    ObjectParameter IdAlumno = new ObjectParameter("IdAlumno", typeof(int));
+                    var query = context.AlumnoAdd(alumno.Nombre, alumno.ApellidoPaterno, alumno.ApellidoMaterno, alumno.FechaNacimiento, IdAlumno);
                     if (query > 0)
                     {
                         result.Correct = true;
@@ -104,5 +104,205 @@ namespace BL
             }
             return result;
         }
+
+        public static ML.Result GetAllLinq()
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
+                {
+
+                    var alumnosList = (from alumnoTable in context.Alumnoes
+                                       select
+                                       new
+                                       {
+                                           IdAlumno = alumnoTable.IdAlumno,
+                                           NombreAlumno = alumnoTable.Nombre,
+                                           ApellidoPaterno = alumnoTable.ApellidoPaterno
+                                       }
+                                       ).ToList();
+
+
+                    if (alumnosList.Count > 0)
+                    {
+                        foreach (var alumnoItem in alumnosList)
+                        {
+                            ML.Alumno alumno = new ML.Alumno();
+                            alumno.IdAlumno = alumnoItem.IdAlumno;
+                            alumno.Nombre = alumnoItem.NombreAlumno;
+                            alumno.ApellidoPaterno = alumnoItem.ApellidoPaterno;
+                            alumno.ApellidoMaterno = alumnoItem.ApellidoPaterno;
+                        }
+                    }
+                    //{
+                    //    result.Correct = true;
+                    //    result.Object = Convert.ToInt32(IdAlumno.Value);
+                    //}
+                    //else
+                    //{
+                    //    result.Correct = false;
+                    //}
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+            return result;
+        }
+
+
+        public static ML.Result GetByIdLinq(int IdAlumno)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
+                {
+
+                    var alumnoObj = (from alumnoTable in context.Alumnoes
+                                     where alumnoTable.IdAlumno == IdAlumno
+                                     select
+                                     new
+                                     {
+                                         IdAlumno = alumnoTable.IdAlumno,
+                                         NombreAlumno = alumnoTable.Nombre,
+                                         ApellidoPaterno = alumnoTable.ApellidoPaterno
+                                     }
+                                       ).FirstOrDefault();
+
+
+                    if (alumnoObj != null)
+                    {
+                        ML.Alumno alumno = new ML.Alumno();
+                        alumno.IdAlumno = alumnoObj.IdAlumno;
+                        alumno.Nombre = alumnoObj.NombreAlumno;
+                        alumno.ApellidoPaterno = alumnoObj.ApellidoPaterno;
+                        alumno.ApellidoMaterno = alumnoObj.ApellidoPaterno;
+
+                        result.Object = alumno;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+            return result;
+        }
+
+
+        public static ML.Result AddLinq(ML.Alumno alumnoML) //ML
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
+                {
+
+                    DL_EF.Alumno alumnoDL = new DL_EF.Alumno();
+
+                    alumnoDL.Nombre = alumnoML.Nombre;
+                    alumnoDL.ApellidoPaterno = alumnoML.ApellidoPaterno;
+                    alumnoDL.ApellidoMaterno = alumnoML.ApellidoMaterno;
+
+
+                    context.Alumnoes.Add(alumnoDL);
+                    int RowsAffected= context.SaveChanges();
+
+                    if (RowsAffected > 0)
+                    {
+                        result.Correct = true;
+                        
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "Ocurrió un error al insertar el alumno";
+                    }
+
+                
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+            return result;
+        }
+        //LINQ
+        //Utilizar código SQL dentro de C#
+
+        //SELECT
+        //WHERE
+
+        public static ML.Result Delete(int IdAlumno)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
+                {
+                    string query = "AlumnoAdd";
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.Connection = context; //cadena de conexion
+                        cmd.CommandText = query; //query
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter[] collection = new SqlParameter[5];
+
+                       
+                        cmd.Parameters.AddRange(collection);
+
+                        cmd.Connection.Open();
+
+                        int RowsAffected = cmd.ExecuteNonQuery();
+
+                        result.Object = Convert.ToInt32(cmd.Parameters["IdAlumno"].Value);//boxing
+
+                        if (RowsAffected > 0) //1
+                        {
+                            result.Correct = true;
+                        }
+                        else
+                        {
+                            result.Correct = false;
+                        }
+                    }
+                }
+                result.Correct = true;
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+
+            return result;
+        }
+
     }
 }

@@ -10,6 +10,7 @@ namespace PL
     {
         static void Main(string[] args)
         {
+            PL.Alumno.Add();
             //Procedimientos materia
             int materia = 0;
             Console.WriteLine("Bienvenido a Materia");
