@@ -1,0 +1,58 @@
+﻿@model ML.Materia
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Materias</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Selecione el boton de "Agregar" para añadir una materia, el boton de amarillo para actualizar una materia, y el boton rojo para eliminar a una materia </h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-right">@Html.ActionLink("Agregar", "Form", "Materia", htmlAttributes: new { @class = "btn btn-success" })</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr class="text-center">
+                        <td>Editar</td>
+                        <td class="hidden">IdMateria</td>
+                        <td>Nombre</td>
+                        <td>Costo</td>
+                        <td>Creditos</td>
+                        <td>Descripción</td>
+                        <td>Semestre</td>
+                        <td>Eliminar</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ML.Materia materia in Model.Materias)
+                     {
+                        <tr class="text-center">
+                            <td><a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "Materia", new { IdMateria = materia.IdMateria })"></a></td>
+                            <td class="hidden">@materia.IdMateria</td>
+                            <td>@materia.Nombre</td>
+                            <td>@materia.Costo</td>
+                            <td>@materia.Creditos</td>
+                            <td>@materia.Descripcion</td>
+                            <td>@materia.Semestre.IdSemestre</td>
+
+                            <td><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Materia", new { IdMateria = materia.IdMateria})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
+                        </tr>
+                     }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

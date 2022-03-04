@@ -11,6 +11,7 @@ namespace BL
 {
     public class Alumno
     {
+
         public static ML.Result Add(ML.Alumno alumno)
         {
             ML.Result result = new ML.Result();
