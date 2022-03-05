@@ -21,9 +21,10 @@ namespace PL_MVC.Controllers
             }
             else
             {
-                return View();
+                ViewBag.Message = "Ocurrió un error al obtener la información" + result.ErrorMessage;
+                return PartialView("ValidationModal");
             }
-            
+
         }
     }
 }
