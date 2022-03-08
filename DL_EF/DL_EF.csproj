@@ -97,6 +97,9 @@
     <Compile Include="Semestre.cs">
       <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
     </Compile>
+    <Compile Include="SemestreGetAll_Result.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="IEspinozaProgramacionNCapasGF.edmx">

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="IEspinozaProgramacionNCapasGFModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="IEspinozaProgramacionNCapasGFModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Alumno">
           <Key>
             <PropertyRef Name="IdAlumno" />
@@ -184,6 +184,7 @@
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
           <Parameter Name="IdSemestre" Type="tinyint" Mode="In" />
         </Function>
+        <Function Name="SemestreGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="IEspinozaProgramacionNCapasGFModelStoreContainer">
           <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Colonia" EntityType="Self.Colonia" Schema="dbo" store:Type="Tables" />
@@ -218,8 +219,7 @@
             <End Role="Municipio" EntitySet="Municipio" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="IEspinozaProgramacionNCapasGFModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -433,11 +433,11 @@
             <Parameter Name="IdSemestre" Mode="In" Type="Byte" />
           </FunctionImport>
           <FunctionImport Name="MateriaDelete">
-            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+          <Parameter Name="IdMateria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MateriaGetAll" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.MateriaGetAll_Result)" />
           <FunctionImport Name="MateriaGetById" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.MateriaGetById_Result)">
-            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+          <Parameter Name="IdMateria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MateriaUpdate">
             <Parameter Name="IdMateria" Mode="In" Type="Int32" />
@@ -447,6 +447,7 @@
             <Parameter Name="Descripcion" Mode="In" Type="String" />
             <Parameter Name="IdSemestre" Mode="In" Type="Byte" />
           </FunctionImport>
+          <FunctionImport Name="SemestreGetAll" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.SemestreGetAll_Result)" />
         </EntityContainer>
         <ComplexType Name="MateriaGetAll_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="false" />
@@ -463,6 +464,10 @@
           <Property Type="Byte" Name="Creditos" Nullable="true" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="100" />
           <Property Type="Byte" Name="IdSemestre" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SemestreGetAll_Result">
+          <Property Type="Byte" Name="IdSemestre" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -578,6 +583,14 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MateriaUpdate" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.MateriaUpdate" />
+          <FunctionImportMapping FunctionImportName="SemestreGetAll" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.SemestreGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.SemestreGetAll_Result">
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

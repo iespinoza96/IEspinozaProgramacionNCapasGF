@@ -165,6 +165,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Materia\GetAll.cshtml" />
     <Content Include="Views\Materia\ValidationModal.cshtml" />
+    <Content Include="Views\Materia\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
