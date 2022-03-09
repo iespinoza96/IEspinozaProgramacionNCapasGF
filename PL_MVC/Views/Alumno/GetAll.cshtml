@@ -1,0 +1,93 @@
+﻿@model ML.Alumno
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <h3>Aqui se muestran los datos de los alumno registrados, actualiza,elimina o agrega alumno</h3>
+    <hr />
+
+    <div class="row">
+        @*<div class="col-md-12 text-right">*@
+        <div class="col-md-12 text-right">
+            @Html.ActionLink("+", "Form", "Alumno", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+
+    </div>
+
+    <br />
+
+    @if (Model.Alumnos.Count > 0)
+     {
+        <div class="row" style="padding-top:30px">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <tr>
+                        <th class="text-center" scope="col">
+                            Editar
+                        </th>
+                        <th class="hidden" scope="col">
+                            IdAlumno
+                        </th>
+                        <th class="text-center" scope="col">
+                            Nombre
+                        </th>
+                        <th class="text-center" scope="col">
+                            Apellido Paterno
+                        </th>
+                        <th class="text-center" scope="col">
+                            Apellido Materno
+                        </th>
+                        <th class="text-center" scope="col">
+                            Fecha de Nacimiento
+                        </th>
+                        <th class="text-center" scope="col">
+                            Eliminar
+                        </th>
+
+                    </tr>
+                    @foreach (ML.Alumno alumno in Model.Alumnos)
+                    {
+                        <tr>
+                            <td>
+                                <a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "Alumno", new { IdAlumno = alumno.IdAlumno })"></a>
+                            </td>
+                            <td class="hidden">
+                                @alumno.IdAlumno
+                            </td>
+                            <td class="text-center">
+                                @alumno.Nombre
+                            </td>
+                            <td class="text-center">
+                                @alumno.ApellidoPaterno
+                            </td>
+                            <td class="text-center">
+                                @alumno.ApellidoMaterno
+                            </td>
+                            <td class="text-center">
+                                @alumno.FechaNacimiento
+                            </td>
+
+                            <td>
+                                <a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Form", "Alumno", new { IdAlumno = alumno.IdAlumno })"></a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+     }
+     else
+     {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert">
+                    No se encontraron registros sobre los semestres
+                </div>
+            </div>
+        </div>
+     }
+</div>
+

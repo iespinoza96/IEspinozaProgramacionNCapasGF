@@ -11,10 +11,9 @@ namespace PL
         public static void Add()
         {
             ML.Direccion direccion = new ML.Direccion();
-            direccion.Alumno = new ML.Alumno(); 
-            direccion.Colonia = new ML.Colonia();
-
+            
             Console.WriteLine("Ingrese el nombre:");
+            direccion.Alumno = new ML.Alumno();
             direccion.Alumno.Nombre = Console.ReadLine();
 
             Console.WriteLine("Ingrese el apellido paterno:");
@@ -37,6 +36,7 @@ namespace PL
             Console.WriteLine("Ingrese el número interior:");
             direccion.NumeroInterior = Console.ReadLine();
             Console.WriteLine("Ingrese el Id de la colonia:");
+            direccion.Colonia = new ML.Colonia();
             direccion.Colonia.IdColonia = int.Parse(Console.ReadLine());
 
             // ML.Result result = BL.Alumno.Add(direccion.Alumno); //SQLClient

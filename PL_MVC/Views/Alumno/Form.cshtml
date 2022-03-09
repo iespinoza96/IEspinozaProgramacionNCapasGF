@@ -1,0 +1,113 @@
+﻿@model ML.Direccion
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Alumno</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "Alumno", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Alumno.IdAlumno, new { @class = "hidden" })
+                        @Html.TextBoxFor(model => model.Alumno.IdAlumno, new { @class = "hidden form-control" })
+                        @Html.ValidationMessageFor(model => model.Alumno.IdAlumno)
+                        @*hidden*@
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Alumno.Nombre)
+                        @Html.TextBoxFor(model => model.Alumno.Nombre, new { @class = "form-control", @id = "txtNombre" })
+                        @Html.ValidationMessageFor(model => model.Alumno.Nombre)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Alumno.ApellidoPaterno)
+                        @Html.TextBoxFor(model => model.Alumno.ApellidoPaterno, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Alumno.ApellidoPaterno)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Alumno.ApellidoMaterno)
+                        @Html.TextBoxFor(model => model.Alumno.ApellidoMaterno, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Alumno.ApellidoMaterno)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Alumno.FechaNacimiento)
+                        @Html.TextBoxFor(model => model.Alumno.FechaNacimiento, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Alumno.FechaNacimiento)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Calle)
+                        @Html.TextBoxFor(model => model.Calle, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Calle)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.NumeroExterior)
+                        @Html.TextBoxFor(model => model.NumeroExterior, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NumeroExterior)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.NumeroInterior)
+                        @Html.TextBoxFor(model => model.NumeroInterior, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NumeroInterior)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Colonia)
+                        @Html.TextBoxFor(model => model.Colonia.IdColonia, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Colonia.IdColonia)
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="submit" value="Guardar" class="btn btn-success" />
+                        @Html.ActionLink("Regresar", "GetAll", "Alumno", htmlAttributes: new { @class = "btn btn-danger" })
+                    </div>
+                </div>
+
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+

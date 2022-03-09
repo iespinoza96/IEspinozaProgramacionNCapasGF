@@ -54,7 +54,6 @@ namespace PL_MVC.Controllers
             return PartialView();
         }
 
-
         [HttpPost]
         public ActionResult Form(ML.Materia materia)
         {

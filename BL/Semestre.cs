@@ -10,44 +10,6 @@ namespace BL
 {
     public class Semestre
     {
-        //public static ML.Result GetAll()
-        //{
-        //    ML.Result result = new ML.Result();
-        //    try
-        //    {
-        //        using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
-        //        {
-        //            var query = context.SemestreGetAll().ToList();
-
-        //            result.Objects = new List<object>();
-
-        //            foreach ( row in )
-        //            {
-        //                ML.Materia materia = new ML.Materia();
-
-        //                materia.IdMateria = int.Parse(row[0].ToString());
-        //                materia.Nombre = row[1].ToString();
-        //                materia.Costo = decimal.Parse(row[2].ToString());
-        //                materia.Creditos = byte.Parse(row[3].ToString());
-        //                materia.Descripcion = row[4].ToString();
-        //                materia.Semestre = new ML.Semestre();
-        //                materia.Semestre.IdSemestre = byte.Parse(row[5].ToString());
-
-        //                result.Objects.Add(materia);
-        //            }
-
-
-        //        }
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //    return result;
-        //}
-
         public static ML.Result GetAll()
         {
             ML.Result result = new ML.Result();
