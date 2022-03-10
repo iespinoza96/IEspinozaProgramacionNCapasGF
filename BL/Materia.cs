@@ -399,6 +399,7 @@ namespace BL
                                 materia.Descripcion = row[4].ToString();
                                 materia.Semestre = new ML.Semestre();
                                 materia.Semestre.IdSemestre = byte.Parse(row[5].ToString());
+                                materia.Semestre.Nombre = row[6].ToString();
 
                                 result.Objects.Add(materia);
                             }

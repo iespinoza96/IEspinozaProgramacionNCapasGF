@@ -12,5 +12,6 @@ namespace ML
         public string Nombre { get; set; }
         public ML.Municipio Municipio { get; set; }
         public string CP { get; set; }
+        public List<object> Colonias { get; set; }
     }
 }

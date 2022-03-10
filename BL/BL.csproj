@@ -51,8 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alumno.cs" />
+    <Compile Include="Colonia.cs" />
     <Compile Include="Direccion.cs" />
+    <Compile Include="Estado.cs" />
     <Compile Include="Materia.cs" />
+    <Compile Include="Municipio.cs" />
+    <Compile Include="Pais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Semestre.cs" />
   </ItemGroup>

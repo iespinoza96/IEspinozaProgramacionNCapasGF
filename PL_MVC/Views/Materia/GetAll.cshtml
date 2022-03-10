@@ -17,7 +17,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <p class="text-right">@Html.ActionLink("Agregar", "Form", "Materia", htmlAttributes: new { @class = "btn btn-success" })</p>
+            <p class="text-right">@Html.ActionLink("+", "Form", "Materia", htmlAttributes: new { @class = "btn btn-success" })</p>
         </div>
     </div>
     <div class="row">
@@ -45,7 +45,8 @@
                             <td>@materia.Costo</td>
                             <td>@materia.Creditos</td>
                             <td>@materia.Descripcion</td>
-                            <td>@materia.Semestre.IdSemestre</td>
+                            <td class="hidden">@materia.Semestre.IdSemestre</td>
+                            <td >@materia.Semestre.Nombre</td>
 
                             <td><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Materia", new { IdMateria = materia.IdMateria})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
                         </tr>

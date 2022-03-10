@@ -53,14 +53,32 @@
     <Compile Include="Alumno.cs">
       <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
     </Compile>
+    <Compile Include="AlumnoGetAll_Result.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AlumnoGetById_Result.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="Colonia.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColoniaGetByIdMunicipio_Result.cs">
       <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
     </Compile>
     <Compile Include="Direccion.cs">
       <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
     </Compile>
+    <Compile Include="DireccionGetByIdAlumno_Result.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DireccionGetByIdColonia_Result.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Estado.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EstadoGetByIdPais_Result.cs">
       <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
     </Compile>
     <Compile Include="IEspinozaProgramacionNCapasGF.Context.cs">
@@ -90,7 +108,13 @@
     <Compile Include="Municipio.cs">
       <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
     </Compile>
+    <Compile Include="MunicipioGetByIdEstado_Result.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Pai.cs">
+      <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaisGetAll_Result.cs">
       <DependentUpon>IEspinozaProgramacionNCapasGF.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

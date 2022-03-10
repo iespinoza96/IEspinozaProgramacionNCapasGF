@@ -186,5 +186,54 @@ namespace BL
 
             return result;
         }
+
+        public static ML.Result DireccionGetByIdColonia(int IdColonia)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
+                {
+                    var query = context.DireccionGetByIdColonia(IdColonia).ToList();
+
+                    result.Objects = new List<object>();
+
+                    if (query != null)
+                    {
+                        result.Objects = new List<object>();
+                        foreach (var obj in query)
+                        {
+                            ML.Direccion direccion = new ML.Direccion();
+                            direccion.IdDireccion = obj.IdDireccion;
+                            direccion.Calle = obj.Calle;
+                            direccion.NumeroExterior = obj.NumeroExterior;
+                            direccion.NumeroInterior = obj.NumeroInterior;
+                            direccion.Colonia = new ML.Colonia();
+                            direccion.Colonia.IdColonia = obj.IdColonia.Value;
+
+                            result.Objects.Add(direccion);
+
+                        }
+                        result.Correct = true;
+
+                    }
+                    else
+                    {
+
+                        result.Correct = false;
+                        result.ErrorMessage = " No existen registros en la tabla Pais";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+
+        }
     }
 }
