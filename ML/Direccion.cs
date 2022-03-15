@@ -14,5 +14,6 @@ namespace ML
         public string NumeroInterior { get; set; }
         public ML.Colonia Colonia { get; set; }
         public ML.Alumno Alumno { get; set; }
+        public List<object> Direcciones { get; set; }
     }
 }

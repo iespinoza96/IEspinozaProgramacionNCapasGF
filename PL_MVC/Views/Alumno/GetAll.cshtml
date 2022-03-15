@@ -1,4 +1,4 @@
-﻿@model ML.Alumno
+﻿@model ML.Direccion
 @{
     ViewBag.Title = "GetAll";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +6,7 @@
 
 <div class="container">
     <h2>@ViewBag.Title</h2>
-    <h3>Aqui se muestran los datos de los alumno registrados, actualiza,elimina o agrega alumno</h3>
+    <h3>Aqui se muestran los datos de los alumnos registrados, actualiza,elimina o agrega alumno</h3>
     <hr />
 
     <div class="row">
@@ -19,7 +19,7 @@
 
     <br />
 
-    @if (Model.Alumnos.Count > 0)
+    @if (Model.Direcciones.Count > 0)
      {
         <div class="row" style="padding-top:30px">
             <div class="col-md-12">
@@ -44,36 +44,47 @@
                             Fecha de Nacimiento
                         </th>
                         <th class="text-center" scope="col">
+                            Imagen
+                        </th>
+                        <th class="text-center" scope="col">
                             Eliminar
                         </th>
 
                     </tr>
-                    @foreach (ML.Alumno alumno in Model.Alumnos)
+                    @foreach (ML.Direccion direccion in Model.Direcciones)
                     {
-                        <tr>
-                            <td>
-                                <a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "Alumno", new { IdAlumno = alumno.IdAlumno })"></a>
-                            </td>
-                            <td class="hidden">
-                                @alumno.IdAlumno
-                            </td>
-                            <td class="text-center">
-                                @alumno.Nombre
-                            </td>
-                            <td class="text-center">
-                                @alumno.ApellidoPaterno
-                            </td>
-                            <td class="text-center">
-                                @alumno.ApellidoMaterno
-                            </td>
-                            <td class="text-center">
-                                @alumno.FechaNacimiento
-                            </td>
+                <tr>
+                    <td>
+                        <a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "Alumno", new { IdAlumno = direccion.Alumno.IdAlumno })"></a>
+                    </td>
+                    <td class="hidden">
+                        @direccion.Alumno.IdAlumno
+                    </td>
+                    <td class="text-center">
+                        @direccion.Alumno.Nombre
+                    </td>
+                    <td class="text-center">
+                        @direccion.Alumno.ApellidoPaterno
+                    </td>
+                    <td class="text-center">
+                        @direccion.Alumno.ApellidoMaterno
+                    </td>
+                    <td class="text-center">
+                        @direccion.Alumno.FechaNacimiento
+                    </td>
+                    @if (direccion.Alumno.Imagen != null)
+                    {
+                        <td><img src="data:image/jpeg;base64,@Convert.ToBase64String(direccion.Alumno.Imagen)" style=" height:150px; width: 150px;" /></td>
+                    }
+                    else
+                    {
+                        <td><img src="~/Img/sinimagen.jpg" style=" height:150px; width:150px;" /></td>
+                    }
 
-                            <td>
-                                <a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Form", "Alumno", new { IdAlumno = alumno.IdAlumno })"></a>
-                            </td>
-                        </tr>
+                    <td>
+                        <a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Form", "Alumno", new { IdAlumno = direccion.Alumno.IdAlumno })"></a>
+                    </td>
+                </tr>
                     }
                 </table>
             </div>

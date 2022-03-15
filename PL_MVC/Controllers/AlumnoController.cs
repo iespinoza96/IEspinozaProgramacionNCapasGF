@@ -11,13 +11,14 @@ namespace PL_MVC.Controllers
         // GET: Alumno
         public ActionResult GetAll()
         {
-            ML.Result result = BL.Alumno.GetAll();
-            ML.Alumno alumno = new ML.Alumno();
+            ML.Result result = BL.Direccion.GetAllEF();
+           //ML.Alumno alumno = new ML.Alumno();
+            ML.Direccion direccion = new ML.Direccion();
 
             if (result.Correct)
             {
-                alumno.Alumnos = result.Objects;
-                return View(alumno);
+                direccion.Direcciones = result.Objects;
+                return View(direccion);
             }
             else
             {
@@ -36,7 +37,7 @@ namespace PL_MVC.Controllers
              direccion.Colonia.Municipio = new ML.Municipio();
              direccion.Colonia.Municipio.Estado = new ML.Estado();
              direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
-             ML.Result resultPais = BL.Pais.GetAllEF();
+             ML.Result resultPais = BL.Pais.GetAll();
              direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
 
             if (IdAlumno == null)
@@ -46,21 +47,23 @@ namespace PL_MVC.Controllers
             }
             else
             {
-                ML.Result result = BL.Alumno.GetById(IdAlumno.Value);
+                //ML.Result result = BL.Alumno.GetById(IdAlumno.Value);
+                ML.Result result = BL.Direccion.DireccionGetByIdAlumno(IdAlumno.Value);
                 if (result.Correct)
                 {
                     
                     direccion.Colonia = new ML.Colonia();
+                    direccion.Alumno = new ML.Alumno();
                     direccion.Colonia.Municipio = new ML.Municipio();
                     direccion.Colonia.Municipio.Estado = new ML.Estado();
                     direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
 
-                    direccion.Alumno = ((ML.Alumno)result.Object);
+                    direccion = ((ML.Direccion)result.Object);
 
                     ML.Result resultEstados = BL.Estado.EstadoGetByIdPais(direccion.Colonia.Municipio.Estado.Pais.IdPais);
                     ML.Result resultMunicipios = BL.Municipio.MunicipioGetByIdEstado(direccion.Colonia.Municipio.Estado.IdEstado);
                     ML.Result resultColonias = BL.Colonia.ColoniaGetByIdMunicipio(direccion.Colonia.Municipio.IdMunicipio);
-                    ML.Result resultDirecciones = BL.Direccion.DireccionGetByIdColonia(direccion.Colonia.IdColonia);
+                    //ML.Result resultDirecciones = BL.Direccion.DireccionGetByIdColonia(direccion.Colonia.IdColonia);
 
                     direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
                     direccion.Colonia.Municipio.Estado.Estados = resultEstados.Objects;
@@ -81,9 +84,15 @@ namespace PL_MVC.Controllers
         [HttpPost]
         public ActionResult Form(ML.Direccion direccion)
         {
+            HttpPostedFileBase file = Request.Files["fuImagen"];
+
+            if (file.ContentLength > 0)
+            {
+                direccion.Alumno.Imagen = ConvertToBytes(file);
+            }
             if (direccion.Alumno.IdAlumno == 0)
             {
-                ML.Result result = BL.Alumno.Add(direccion.Alumno);
+                ML.Result result = BL.Alumno.AddEF(direccion.Alumno);
 
                 if (result.Correct)
                 {
@@ -106,7 +115,7 @@ namespace PL_MVC.Controllers
             }
             else
             {
-                ML.Result result = BL.Alumno.Update(direccion.Alumno);
+                ML.Result result = BL.Alumno.UpdateEF(direccion.Alumno);
                 if (result.Correct)
                 {
                     ViewBag.Message = "Alumno actualizado correctamente";
@@ -135,6 +144,17 @@ namespace PL_MVC.Controllers
             var result = BL.Colonia.ColoniaGetByIdMunicipio(IdMunicipio);
             return Json(result.Objects, JsonRequestBehavior.AllowGet);
         }
+
+        public byte[] ConvertToBytes(HttpPostedFileBase Imagen)
+        {
+            byte[] data = null;
+            System.IO.BinaryReader reader = new System.IO.BinaryReader(Imagen.InputStream);
+            data = reader.ReadBytes((int)Imagen.ContentLength);
+
+            return data;
+        }
+
+
 
 
     }

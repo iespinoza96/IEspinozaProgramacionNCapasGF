@@ -14,6 +14,7 @@
           <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" />
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
           <Property Name="FechaNacimiento" Type="date" />
+          <Property Name="Imagen" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Colonia">
           <Key>
@@ -153,6 +154,7 @@
           <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
           <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
           <Parameter Name="FechaNacimiento" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
           <Parameter Name="IdAlumno" Type="int" Mode="InOut" />
         </Function>
         <Function Name="AlumnoDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -168,6 +170,7 @@
           <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
           <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
           <Parameter Name="FechaNacimiento" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
         </Function>
         <Function Name="ColoniaGetByIdMunicipio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMunicipio" Type="int" Mode="In" />
@@ -182,6 +185,7 @@
         <Function Name="DireccionDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdDireccion" Type="int" Mode="In" />
         </Function>
+        <Function Name="DireccionGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="DireccionGetByIdAlumno" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdAlumno" Type="int" Mode="In" />
         </Function>
@@ -266,6 +270,7 @@
           <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Direccions" Relationship="Self.FK__Direccion__IdAlu__29572725" FromRole="Alumno" ToRole="Direccion" />
+          <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Colonia">
           <Key>
@@ -444,13 +449,6 @@
             <End Role="Semestre" EntitySet="Semestres" />
             <End Role="Materia" EntitySet="Materias" />
           </AssociationSet>
-          <FunctionImport Name="AlumnoAdd">
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
-            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
-            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
-            <Parameter Name="IdAlumno" Mode="InOut" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="DireccionAdd">
             <Parameter Name="Calle" Mode="In" Type="String" />
             <Parameter Name="NumeroExterior" Mode="In" Type="String" />
@@ -488,21 +486,11 @@
           <FunctionImport Name="AlumnoGetById" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.AlumnoGetById_Result)">
           <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="AlumnoUpdate">
-            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
-            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
-            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="ColoniaGetByIdMunicipio" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.ColoniaGetByIdMunicipio_Result)">
           <Parameter Name="IdMunicipio" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DireccionDelete">
           <Parameter Name="IdDireccion" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="DireccionGetByIdAlumno" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.DireccionGetByIdAlumno_Result)">
-          <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DireccionGetByIdColonia" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.DireccionGetByIdColonia_Result)">
           <Parameter Name="IdColonia" Mode="In" Type="Int32" />
@@ -514,6 +502,26 @@
           <Parameter Name="IdPais" Mode="In" Type="Byte" />
           </FunctionImport>
           <FunctionImport Name="PaisGetAll" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.PaisGetAll_Result)" />
+          <FunctionImport Name="AlumnoAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="Binary" />
+            <Parameter Name="IdAlumno" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AlumnoUpdate">
+            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="DireccionGetAll" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.DireccionGetAll_Result)" />
+          <FunctionImport Name="DireccionGetByIdAlumno" ReturnType="Collection(IEspinozaProgramacionNCapasGFModel.DireccionGetByIdAlumno_Result)">
+            <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="MateriaGetAll_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="false" />
@@ -555,14 +563,6 @@
           <Property Type="Int32" Name="IdMunicipio" Nullable="true" />
           <Property Type="String" Name="CP" Nullable="true" MaxLength="5" />
         </ComplexType>
-        <ComplexType Name="DireccionGetByIdAlumno_Result">
-          <Property Type="Int32" Name="IdDireccion" Nullable="false" />
-          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
-          <Property Type="Int32" Name="IdColonia" Nullable="true" />
-          <Property Type="Int32" Name="IdAlumno" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="DireccionGetByIdColonia_Result">
           <Property Type="Int32" Name="IdDireccion" Nullable="false" />
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
@@ -585,6 +585,48 @@
           <Property Type="Byte" Name="IdPais" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="DireccionGetAll_Result">
+          <Property Type="Int32" Name="IdDireccion" Nullable="false" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdColonia" Nullable="true" />
+          <Property Type="String" Name="Colonia" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="IdMunicipio" Nullable="true" />
+          <Property Type="String" Name="Municipio" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdEstado" Nullable="true" />
+          <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdPais" Nullable="true" />
+          <Property Type="String" Name="Pais" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdAlumno" Nullable="true" />
+          <Property Type="String" Name="Alumno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="true" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="DireccionGetByIdAlumno_Result">
+          <Property Type="Int32" Name="IdDireccion" Nullable="false" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NumeroExterior" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdColonia" Nullable="true" />
+          <Property Type="String" Name="Colonia" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="5" />
+          <Property Type="Int32" Name="IdMunicipio" Nullable="true" />
+          <Property Type="String" Name="Municipio" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdEstado" Nullable="true" />
+          <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdPais" Nullable="true" />
+          <Property Type="String" Name="Pais" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdAlumno" Nullable="true" />
+          <Property Type="String" Name="Alumno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="true" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -594,6 +636,7 @@
           <EntitySetMapping Name="Alumnoes">
             <EntityTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.Alumno">
               <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
@@ -670,7 +713,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AlumnoAdd" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.AlumnoAdd" />
           <FunctionImportMapping FunctionImportName="DireccionAdd" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.DireccionAdd" />
           <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.MateriaAdd" />
           <FunctionImportMapping FunctionImportName="MateriaDelete" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.MateriaDelete" />
@@ -730,7 +772,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="AlumnoUpdate" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.AlumnoUpdate" />
           <FunctionImportMapping FunctionImportName="ColoniaGetByIdMunicipio" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.ColoniaGetByIdMunicipio">
             <ResultMapping>
               <ComplexTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.ColoniaGetByIdMunicipio_Result">
@@ -742,18 +783,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DireccionDelete" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.DireccionDelete" />
-          <FunctionImportMapping FunctionImportName="DireccionGetByIdAlumno" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.DireccionGetByIdAlumno">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.DireccionGetByIdAlumno_Result">
-                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
-                <ScalarProperty Name="Calle" ColumnName="Calle" />
-                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
-                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
-                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
-                <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DireccionGetByIdColonia" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.DireccionGetByIdColonia">
             <ResultMapping>
               <ComplexTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.DireccionGetByIdColonia_Result">
@@ -789,6 +818,58 @@
               <ComplexTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.PaisGetAll_Result">
                 <ScalarProperty Name="IdPais" ColumnName="IdPais" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AlumnoAdd" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.AlumnoAdd" />
+          <FunctionImportMapping FunctionImportName="AlumnoUpdate" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.AlumnoUpdate" />
+          <FunctionImportMapping FunctionImportName="DireccionGetAll" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.DireccionGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.DireccionGetAll_Result">
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdPais" ColumnName="IdPais" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
+                <ScalarProperty Name="Alumno" ColumnName="Alumno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DireccionGetByIdAlumno" FunctionName="IEspinozaProgramacionNCapasGFModel.Store.DireccionGetByIdAlumno">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IEspinozaProgramacionNCapasGFModel.DireccionGetByIdAlumno_Result">
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdPais" ColumnName="IdPais" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
+                <ScalarProperty Name="Alumno" ColumnName="Alumno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

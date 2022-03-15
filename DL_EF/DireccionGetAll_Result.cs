@@ -11,7 +11,7 @@ namespace DL_EF
 {
     using System;
     
-    public partial class DireccionGetByIdAlumno_Result
+    public partial class DireccionGetAll_Result
     {
         public int IdDireccion { get; set; }
         public string Calle { get; set; }

@@ -313,11 +313,43 @@ namespace BL
                 using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
                 {
                     ObjectParameter IdAlumno = new ObjectParameter("IdAlumno", typeof(int));
-                    var query = context.AlumnoAdd(alumno.Nombre, alumno.ApellidoPaterno, alumno.ApellidoMaterno, alumno.FechaNacimiento, IdAlumno);
+                    var query = context.AlumnoAdd(alumno.Nombre, alumno.ApellidoPaterno, alumno.ApellidoMaterno, alumno.FechaNacimiento, alumno.Imagen,IdAlumno);
                     if (query > 0)
                     {
                         result.Correct = true;
                         result.Object = Convert.ToInt32(IdAlumno.Value);
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+
+            }
+            return result;
+        }
+
+        public static ML.Result UpdateEF(ML.Alumno alumno)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.IEspinozaProgramacionNCapasGFEntities context = new DL_EF.IEspinozaProgramacionNCapasGFEntities())
+                {
+                    //ObjectParameter IdAlumno = new ObjectParameter("IdAlumno", typeof(int));
+                    var query = context.AlumnoUpdate(alumno.IdAlumno,alumno.Nombre, alumno.ApellidoPaterno, alumno.ApellidoMaterno, alumno.FechaNacimiento, alumno.Imagen);
+                    if (query > 0)
+                    {
+                        result.Correct = true;
+                        //result.Object = Convert.ToInt32(IdAlumno.Value);
                     }
                     else
                     {
