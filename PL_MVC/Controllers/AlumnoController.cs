@@ -84,51 +84,67 @@ namespace PL_MVC.Controllers
         [HttpPost]
         public ActionResult Form(ML.Direccion direccion)
         {
-            HttpPostedFileBase file = Request.Files["fuImagen"];
-
-            if (file.ContentLength > 0)
+            if (ModelState.IsValid)
             {
-                direccion.Alumno.Imagen = ConvertToBytes(file);
-            }
-            if (direccion.Alumno.IdAlumno == 0)
-            {
-                ML.Result result = BL.Alumno.AddEF(direccion.Alumno);
-
-                if (result.Correct)
+                HttpPostedFileBase file = Request.Files["fuImagen"];
+                if (file.ContentLength > 0)
                 {
-                    direccion.Alumno.IdAlumno = ((int)result.Object);
-                    ML.Result resultDireccion = BL.Direccion.Add(direccion);
-                    if (resultDireccion.Correct)
+                    direccion.Alumno.Imagen = ConvertToBytes(file);
+                }
+                if (direccion.Alumno.IdAlumno == 0)
+                {
+                    ML.Result result = BL.Alumno.AddEF(direccion.Alumno);
+
+                    if (result.Correct)
                     {
-                        ViewBag.Message = "Alumno Ingresado Correctamente";
+                        direccion.Alumno.IdAlumno = ((int)result.Object);
+                        ML.Result resultDireccion = BL.Direccion.Add(direccion);
+                        if (resultDireccion.Correct)
+                        {
+                            ViewBag.Message = "Alumno Ingresado Correctamente";
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Ocurrio un error al insertar el alumno" + resultDireccion.ErrorMessage;
+                        }
+
                     }
                     else
                     {
-                        ViewBag.Message = "Ocurrio un error al insertar el alumno" + resultDireccion.ErrorMessage;
+                        ViewBag.Message = "Error al intentar ingresar al usuario" + result.ErrorMessage;
                     }
-                    
                 }
                 else
                 {
-                    ViewBag.Message = "Error al intentar ingresar al usuario" + result.ErrorMessage;
+                    ML.Result result = BL.Alumno.UpdateEF(direccion.Alumno);
+                    if (result.Correct)
+                    {
+                        ViewBag.Message = "Alumno actualizado correctamente";
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Error al tratar de actualizar al usuario" + result.ErrorMessage;
+                    }
                 }
+
+                return PartialView("ValidationModal");
             }
             else
             {
-                ML.Result result = BL.Alumno.UpdateEF(direccion.Alumno);
-                if (result.Correct)
-                {
-                    ViewBag.Message = "Alumno actualizado correctamente";
-                }
-                else
-                {
-                    ViewBag.Message = "Error al tratar de actualizar al usuario" + result.ErrorMessage;
-                }
+                direccion = new ML.Direccion();
+                direccion.Alumno = new ML.Alumno();
+                direccion.Colonia = new ML.Colonia();
+                direccion.Colonia.Municipio = new ML.Municipio();
+                direccion.Colonia.Municipio.Estado = new ML.Estado();
+                direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
+                ML.Result resultPais = BL.Pais.GetAll();
+                direccion.Colonia.Municipio.Estado.Pais.Paises = resultPais.Objects;
+
+                return View(direccion);
+
             }
 
-            return PartialView("ValidationModal");
         }
-
         public JsonResult GetEstado(byte IdPais)
         {
             var result = BL.Estado.EstadoGetByIdPais(IdPais);
@@ -144,7 +160,6 @@ namespace PL_MVC.Controllers
             var result = BL.Colonia.ColoniaGetByIdMunicipio(IdMunicipio);
             return Json(result.Objects, JsonRequestBehavior.AllowGet);
         }
-
         public byte[] ConvertToBytes(HttpPostedFileBase Imagen)
         {
             byte[] data = null;
@@ -153,9 +168,6 @@ namespace PL_MVC.Controllers
 
             return data;
         }
-
-
-
 
     }
 }
