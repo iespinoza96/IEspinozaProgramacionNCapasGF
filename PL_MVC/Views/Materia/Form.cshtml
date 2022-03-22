@@ -1,4 +1,4 @@
-﻿@model ML.Materia 
+﻿@model ML.Materia
 @{
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,73 +22,142 @@
         <div class="col-md-12">
             @using (Html.BeginForm("Form", "Materia", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            @Html.LabelFor(model => model.IdMateria, new { @class = "hidden" })
-                            @Html.TextBoxFor(model => model.IdMateria, new { @class = "hidden form-control" })
-                            @Html.ValidationMessageFor(model => model.IdMateria)
-                            @*hidden*@
-                        </div>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.IdMateria, new { @class = "hidden" })
+                        @Html.TextBoxFor(model => model.IdMateria, new { @class = "hidden form-control" })
+                        @Html.ValidationMessageFor(model => model.IdMateria)
+                        @*hidden*@
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            @Html.LabelFor(model => model.Nombre)
-                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
-                            @Html.ValidationMessageFor(model => model.Nombre)
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Nombre)
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @onkeypress = "return SoloLetras(event, 'lblErrorNombre')", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.Nombre)
+                        <label id="lblErrorNombre"></label>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            @Html.LabelFor(model => model.Costo)
-                            @Html.TextBoxFor(model => model.Costo, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Costo)
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Costo)
+                        @Html.TextBoxFor(model => model.Costo, new { @class = "form-control", @id = "txtCosto", @onkeypress = "return SoloNumeros(event, 'lblErrorCosto')", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.Costo)
+                        <label id="lblErrorCosto"></label>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            @Html.LabelFor(model => model.Creditos)
-                            @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Creditos)
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Creditos)
+                        @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Creditos)
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            @Html.LabelFor(model => model.Descripcion)
-                            @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Descripcion)
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Descripcion)
+                        @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Descripcion)
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            @Html.LabelFor(model => model.Semestre)
-                            @*@Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })*@
-                            @*<select>
-                                <option>seleccione una opcion</option>
-                                <option> primer semestre</option>
-                                <option>segundo semesre</option>
-                            </select>*@
-
-                            @Html.DropDownListFor(model =>model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opción", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Semestre)
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.Label("Email");
+                        @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control", @id = "txtEmail", @onblur = "return ValidarEmail()" })
+                        @Html.ValidationMessageFor(model => model.Descripcion)
                     </div>
+                </div>
 
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Semestre)
+                        @*@Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })*@
+                        @*<select>
+                    <option>seleccione una opcion</option>
+                    <option> primer semestre</option>
+                    <option>segundo semesre</option>
+                </select>*@
 
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            <input type="submit" value="Guardar" class="btn btn-success" />
-                            @Html.ActionLink("Regresar", "GetAll", "Materia", htmlAttributes: new { @class = "btn btn-danger" })
-                        </div>
+                        @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opción", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Semestre)
                     </div>
+                </div>
 
-                </div>  
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <input type="submit" value="Guardar" class="btn btn-success" />
+                        @Html.ActionLink("Regresar", "GetAll", "Materia", htmlAttributes: new { @class = "btn btn-danger" })
+                    </div>
+                </div>
+
+            </div>
             }
         </div>
     </div>
 </div>
+
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="jqueryui/style.css">
+<script type="text/javascript">
+    function SoloLetras(e, controlId) {
+
+        var caracter = e.key;
+
+        if (!/^[a-zA-Z]*$/g.test(caracter)) {
+
+            $('#' + controlId).text("Solo se aceptan letras");
+            $('#' + controlId).css({ "color": "red" });
+
+            return false;
+        }
+        else {
+            $('#' + controlId).text("");
+            return true;
+        }
+    }//termina validacion de letras
+
+    function SoloNumeros(e, controlId) {
+
+        var caracter = e.key;
+
+        if (!/^[0-9]+$/g.test(caracter)) {
+
+            $('#' + controlId).text("Solo se aceptan números");
+            $('#' + controlId).css({ "color": "red" });
+
+            return false;
+        }
+        else {
+            $('#' + controlId).text("");
+            return true;
+        }
+    }//termina validacion de numeros
+
+
+    function ValidarEmail() {
+
+        var txtEmail = $("#txtEmail");
+
+        var regex = "^([a-zA-Z0-9_\-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/g";
+        var isEmail = true;
+        if (true) {
+            txtEmail.css('border-color', 'green');
+        }
+        else {
+            txtApellidoPaterno.css('border-color', 'red');
+        }
+    }
+
+
+</script>
 
